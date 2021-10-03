@@ -10,6 +10,27 @@
 </head>
 <body>
   <h1>Library</h1>
-  <div id="display-book"></div>
+  <div id="displayBook"></div>
+  <button id="showBookFormBtn" class="open-button">
+    Add Book
+  </button>
+
+  <div id="myForm" class="form-popup">
+    <form action="#" class="form-container">
+      <h1>Add Book</h1>
+
+      <label for="title">Title</label>
+      <input type="text" placeholder="Enter title" name="title" id="title" required>
+
+      <label for="author">Author</label>
+      <input type="text" placeholder="Enter author" name="author" id="author" required>
+
+      <label for="pages">Pages</label>
+      <input type="number" placeholder="How many pages" name="pages" id="pages">
+
+      <button type="submit">Add</button>
+      <button id="closeBookFormBtn" type="button">Close</button>
+    </form>
+  </div>
 </body>
 </html>

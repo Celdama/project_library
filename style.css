@@ -4,13 +4,12 @@
   font-family: sans-serif;
 }
 
-#display-book {
+#displayBook {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   margin-top: 36px;
-
 }
 
 .book-card {
@@ -24,4 +23,16 @@
   padding: 8px 0 24px 0;
   text-align: center;
   /* outline: 1px solid black; */
+}
+
+.form-popup {
+  display: none;
+
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  padding: 10px;
 }

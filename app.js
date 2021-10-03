@@ -1,4 +1,4 @@
-const display = document.getElementById('display-book');
+const display = document.getElementById('displayBook');
 
 const myLibrary = [];
 
@@ -49,5 +49,20 @@ const displayBook = () => {
     display.appendChild(card);
   });
 };
+
+const addBookFormBtn = document.getElementById('showBookFormBtn');
+const addBookForm = document.getElementById('myForm');
+const closeBookFormBtn = document.getElementById('closeBookFormBtn');
+
+const openForm = () => {
+  addBookForm.style.display = 'block';
+};
+
+const closeForm = () => {
+  addBookForm.style.display = 'none';
+};
+
+addBookFormBtn.addEventListener('click', () => openForm());
+closeBookFormBtn.addEventListener('click', () => closeForm());
 
 displayBook();
