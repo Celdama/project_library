@@ -5,10 +5,14 @@
 }
 
 #displayBook {
+
+}
+
+.card-content {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: center;
+  gap: 10px;
   margin-top: 36px;
 }
 

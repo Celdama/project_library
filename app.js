@@ -1,4 +1,5 @@
 const display = document.getElementById('displayBook');
+const cardContent = document.createElement('div');
 
 const myLibrary = [];
 
@@ -15,25 +16,17 @@ class Book {
 }
 
 const addBookToLibrary = (book) => {
-  myLibrary.push(book);
+  const bookToAdd = new Book(book.title, book.author, book.pages);
+  myLibrary.push(bookToAdd);
 };
 
-const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', 295);
-const deepWork = new Book('Deep Work', 'Cal Newport', 345);
-const work = new Book('Work', 'James Suzman', 456);
-const minimalism = new Book('Minimalism', 'Joshua Millburn', 232);
-const goodByeThings = new Book('GoodBye Things', 'Fumio Sasaki', 123);
-
-addBookToLibrary(theHobbit);
-addBookToLibrary(deepWork);
-addBookToLibrary(work);
-addBookToLibrary(minimalism);
-addBookToLibrary(goodByeThings);
-
 const displayBook = () => {
+  // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
+  cardContent.textContent = '';
   myLibrary.forEach((book) => {
     const card = document.createElement('div');
     card.classList.add('book-card');
+    cardContent.classList.add('card-content');
     const title = document.createElement('h2');
     const author = document.createElement('p');
     const pages = document.createElement('p');
@@ -46,13 +39,15 @@ const displayBook = () => {
     card.appendChild(author);
     card.appendChild(pages);
 
-    display.appendChild(card);
+    cardContent.appendChild(card);
+    display.appendChild(cardContent);
   });
 };
 
 const addBookFormBtn = document.getElementById('showBookFormBtn');
 const addBookForm = document.getElementById('myForm');
 const closeBookFormBtn = document.getElementById('closeBookFormBtn');
+const bookForm = document.getElementById('formToAddBook');
 
 const openForm = () => {
   addBookForm.style.display = 'block';
@@ -62,7 +57,20 @@ const closeForm = () => {
   addBookForm.style.display = 'none';
 };
 
+const getBookInfo = () => {
+  const bookInfo = Array.from(document.querySelectorAll('#formToAddBook input')).reduce((acc, input) => (
+    { ...acc, [input.id]: input.value }
+  ), {});
+  return bookInfo;
+};
+
 addBookFormBtn.addEventListener('click', () => openForm());
 closeBookFormBtn.addEventListener('click', () => closeForm());
-
-displayBook();
+bookForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  getBookInfo();
+  const newBook = getBookInfo();
+  addBookToLibrary(newBook);
+  displayBook();
+  bookForm.reset();
+});
