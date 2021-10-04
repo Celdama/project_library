@@ -4,9 +4,6 @@
   font-family: sans-serif;
 }
 
-#displayBook {
-
-}
 
 .card-content {
   display: flex;
@@ -26,12 +23,10 @@
 .book-card h2 {
   padding: 8px 0 24px 0;
   text-align: center;
-  /* outline: 1px solid black; */
 }
 
 .form-popup {
   display: none;
-
 }
 
 .form-container {

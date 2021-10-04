@@ -4,20 +4,26 @@ const cardContent = document.createElement('div');
 const myLibrary = [];
 
 class Book {
-  constructor(title, author, pages) {
+  constructor(title, author, pages, isRead) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.isRead = isRead;
   }
 
   info() {
-    return `${this.title} by ${this.author} - ${this.pages}`;
+    return `${this.title} by ${this.author} - ${this.pages} pages`;
   }
 }
 
 const addBookToLibrary = (book) => {
-  const bookToAdd = new Book(book.title, book.author, book.pages);
+  const bookToAdd = new Book(book.title, book.author, book.pages, book.isRead);
   myLibrary.push(bookToAdd);
+  // console.log(myLibrary);
+};
+
+const toggleReadStatus = () => {
+  // console.log('toggle');
 };
 
 const displayBook = () => {
@@ -30,14 +36,24 @@ const displayBook = () => {
     const title = document.createElement('h2');
     const author = document.createElement('p');
     const pages = document.createElement('p');
+    const read = document.createElement('p');
+    const toggleRead = document.createElement('button');
 
     title.textContent = book.title;
-    author.textContent = book.author;
-    pages.textContent = `${book.pages} pages`;
+    author.textContent = `by: ${book.author}`;
+    pages.textContent = `pages: ${book.pages}`;
+    book.isRead
+      ? read.textContent = 'already read'
+      : read.textContent = 'not read yet';
+    toggleRead.textContent = 'toggle read';
+
+    toggleRead.addEventListener('click', toggleReadStatus());
 
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(pages);
+    card.appendChild(read);
+    card.appendChild(toggleRead);
 
     cardContent.appendChild(card);
     display.appendChild(cardContent);
@@ -58,9 +74,19 @@ const closeForm = () => {
 };
 
 const getBookInfo = () => {
-  const bookInfo = Array.from(document.querySelectorAll('#formToAddBook input')).reduce((acc, input) => (
-    { ...acc, [input.id]: input.value }
-  ), {});
+  const bookInfo = Array.from(document.querySelectorAll('#formToAddBook input'))
+    .reduce((acc, input) => (
+      { ...acc, [input.id]: input.value }
+    ), {});
+
+  const isReaded = document.querySelector('#formToAddBook input:checked');
+
+  if (isReaded.value === 'true') {
+    bookInfo.isRead = true;
+  } else {
+    bookInfo.isRead = false;
+  }
+
   return bookInfo;
 };
 
@@ -72,5 +98,5 @@ bookForm.addEventListener('submit', (e) => {
   const newBook = getBookInfo();
   addBookToLibrary(newBook);
   displayBook();
-  bookForm.reset();
+  // bookForm.reset();
 });
