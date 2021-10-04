@@ -1,11 +1,14 @@
 const display = document.getElementById('displayBook');
 const cardContent = document.createElement('div');
+const addBookFormBtn = document.getElementById('showBookFormBtn');
+const addBookForm = document.getElementById('myForm');
+const closeBookFormBtn = document.getElementById('closeBookFormBtn');
+const bookForm = document.getElementById('formToAddBook');
 
 const myLibrary = [];
 
 class Book {
   constructor(title, author, pages, isRead) {
-    // this.id = id;
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -18,69 +21,67 @@ class Book {
 }
 
 const addBookToLibrary = (book) => {
-  const bookToAdd = new Book(book.title, book.author, book.pages, book.isRead);
-  myLibrary.push(bookToAdd);
+  const newBook = new Book(book.title, book.author, book.pages, book.isRead);
+  myLibrary.push(newBook);
 };
 
-const displayReadOrNot = (div, read) => {
-  const displayRead = div;
+const displayReadStatus = (div, read) => {
+  const displayReadStatusPara = div;
+
   if (read) {
-    displayRead.textContent = 'read';
+    displayReadStatusPara.textContent = 'read';
   } else {
-    displayRead.textContent = 'not read';
+    displayReadStatusPara.textContent = 'not read yet';
   }
 
-  return displayRead;
+  return displayReadStatusPara;
 };
 
 const toggleReadStatus = (book, index) => {
-  // j'utilise l'index pour cibler le bon <p> à modifier le textContent
-  const readP = document.querySelectorAll('.is-reading');
-  book.isRead = !book.isRead;
-  displayReadOrNot(readP[index], book.isRead);
+  const bookToToggle = book;
+  // j'utilise l'index pour cibler le bon <p> et
+  // modifier le textContent dans la fonction displayReadStatus
+  const readPara = document.querySelectorAll('.read-statut');
+  bookToToggle.isRead = !book.isRead;
+  displayReadStatus(readPara[index], bookToToggle.isRead);
 };
 
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
-  myLibrary.forEach((book, i) => {
-    const card = document.createElement('div');
-    card.classList.add('book-card');
-    card.dataset.firstValue = `${i}`;
+  myLibrary.forEach((book, index) => {
+    const bookCard = document.createElement('div');
+    const bookTitle = document.createElement('h2');
+    const bookAuthor = document.createElement('p');
+    const bookPages = document.createElement('p');
+    const displayReadStatusPara = document.createElement('p');
+    const toggleReadStatusBtn = document.createElement('button');
+    bookCard.classList.add('book-card');
     cardContent.classList.add('card-content');
-    const title = document.createElement('h2');
-    const author = document.createElement('p');
-    const pages = document.createElement('p');
-    const read = document.createElement('p');
-    read.classList.add('is-reading');
-    const toggleRead = document.createElement('button');
+    displayReadStatusPara.classList.add('read-statut');
 
-    title.textContent = book.title;
-    author.textContent = `by: ${book.author}`;
-    pages.textContent = `pages: ${book.pages}`;
-    displayReadOrNot(read, book.isRead);
+    bookTitle.textContent = book.title;
+    bookAuthor.textContent = `by: ${book.author}`;
+    bookPages.textContent = `pages: ${book.pages}`;
 
-    toggleRead.textContent = 'toggle read';
+    displayReadStatus(displayReadStatusPara, book.isRead);
 
-    toggleRead.addEventListener('click', () => {
-      toggleReadStatus(myLibrary[i], i);
+    toggleReadStatusBtn.textContent = 'toggle read';
+
+    toggleReadStatusBtn.addEventListener('click', () => {
+      toggleReadStatus(myLibrary[index], index);
     });
 
-    card.appendChild(title);
-    card.appendChild(author);
-    card.appendChild(pages);
-    card.appendChild(read);
-    card.appendChild(toggleRead);
+    bookCard.appendChild(bookTitle);
+    bookCard.appendChild(bookAuthor);
+    bookCard.appendChild(bookPages);
+    bookCard.appendChild(displayReadStatusPara);
+    bookCard.appendChild(toggleReadStatusBtn);
 
-    cardContent.appendChild(card);
+    cardContent.appendChild(bookCard);
     display.appendChild(cardContent);
   });
 };
-
-const addBookFormBtn = document.getElementById('showBookFormBtn');
-const addBookForm = document.getElementById('myForm');
-const closeBookFormBtn = document.getElementById('closeBookFormBtn');
-const bookForm = document.getElementById('formToAddBook');
 
 const openForm = () => {
   addBookForm.style.display = 'block';
@@ -91,7 +92,7 @@ const closeForm = () => {
 };
 
 const getBookInfo = () => {
-  const bookInfo = Array.from(document.querySelectorAll('#formToAddBook input'))
+  const newBookInfo = Array.from(document.querySelectorAll('#formToAddBook input'))
     .reduce((acc, input) => (
       { ...acc, [input.id]: input.value }
     ), {});
@@ -99,21 +100,22 @@ const getBookInfo = () => {
   const isReaded = document.querySelector('#formToAddBook input:checked');
 
   if (isReaded.value === 'true') {
-    bookInfo.isRead = true;
+    newBookInfo.isRead = true;
   } else {
-    bookInfo.isRead = false;
+    newBookInfo.isRead = false;
   }
 
-  return bookInfo;
+  return newBookInfo;
 };
 
 addBookFormBtn.addEventListener('click', () => openForm());
 closeBookFormBtn.addEventListener('click', () => closeForm());
+
 bookForm.addEventListener('submit', (e) => {
   e.preventDefault();
   getBookInfo();
   const newBook = getBookInfo();
   addBookToLibrary(newBook);
   displayBook();
-  bookForm.reset();
+  // bookForm.reset();
 });
