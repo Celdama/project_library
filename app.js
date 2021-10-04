@@ -5,6 +5,7 @@ const myLibrary = [];
 
 class Book {
   constructor(title, author, pages, isRead) {
+    // this.id = id;
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -19,35 +20,51 @@ class Book {
 const addBookToLibrary = (book) => {
   const bookToAdd = new Book(book.title, book.author, book.pages, book.isRead);
   myLibrary.push(bookToAdd);
-  // console.log(myLibrary);
 };
 
-const toggleReadStatus = () => {
-  // console.log('toggle');
+const displayReadOrNot = (div, read) => {
+  const displayRead = div;
+  if (read) {
+    displayRead.textContent = 'read';
+  } else {
+    displayRead.textContent = 'not read';
+  }
+
+  return displayRead;
+};
+
+const toggleReadStatus = (book, index) => {
+  // j'utilise l'index pour cibler le bon <p> à modifier le textContent
+  const readP = document.querySelectorAll('.is-reading');
+  book.isRead = !book.isRead;
+  displayReadOrNot(readP[index], book.isRead);
 };
 
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
-  myLibrary.forEach((book) => {
+  myLibrary.forEach((book, i) => {
     const card = document.createElement('div');
     card.classList.add('book-card');
+    card.dataset.firstValue = `${i}`;
     cardContent.classList.add('card-content');
     const title = document.createElement('h2');
     const author = document.createElement('p');
     const pages = document.createElement('p');
     const read = document.createElement('p');
+    read.classList.add('is-reading');
     const toggleRead = document.createElement('button');
 
     title.textContent = book.title;
     author.textContent = `by: ${book.author}`;
     pages.textContent = `pages: ${book.pages}`;
-    book.isRead
-      ? read.textContent = 'already read'
-      : read.textContent = 'not read yet';
+    displayReadOrNot(read, book.isRead);
+
     toggleRead.textContent = 'toggle read';
 
-    toggleRead.addEventListener('click', toggleReadStatus());
+    toggleRead.addEventListener('click', () => {
+      toggleReadStatus(myLibrary[i], i);
+    });
 
     card.appendChild(title);
     card.appendChild(author);
@@ -98,5 +115,5 @@ bookForm.addEventListener('submit', (e) => {
   const newBook = getBookInfo();
   addBookToLibrary(newBook);
   displayBook();
-  // bookForm.reset();
+  bookForm.reset();
 });
