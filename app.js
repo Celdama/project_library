@@ -8,11 +8,12 @@ const bookForm = document.getElementById('formToAddBook');
 const myLibrary = [];
 
 class Book {
-  constructor(title, author, pages, isRead) {
+  constructor(title, author, pages, isRead, id = null) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.isRead = isRead;
+    this.id = id;
   }
 
   info() {
@@ -46,16 +47,29 @@ const toggleReadStatus = (book, index) => {
   displayReadStatus(readPara[index], bookToToggle.isRead);
 };
 
+const setBookId = () => {
+  myLibrary.forEach((book, index) => {
+    book.id = index;
+  });
+};
+
+const deleteBook = (index) => {
+  myLibrary.splice(index, 1);
+};
+
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
   myLibrary.forEach((book, index) => {
     const bookCard = document.createElement('div');
+    bookCard.dataset.id = index;
     const bookTitle = document.createElement('h2');
     const bookAuthor = document.createElement('p');
     const bookPages = document.createElement('p');
     const displayReadStatusPara = document.createElement('p');
     const toggleReadStatusBtn = document.createElement('button');
+    const deleteBookBtn = document.createElement('button');
+    deleteBookBtn.classList.add('delete-book');
     bookCard.classList.add('book-card');
     cardContent.classList.add('card-content');
     displayReadStatusPara.classList.add('read-statut');
@@ -63,6 +77,7 @@ const displayBook = () => {
     bookTitle.textContent = book.title;
     bookAuthor.textContent = `by: ${book.author}`;
     bookPages.textContent = `pages: ${book.pages}`;
+    deleteBookBtn.textContent = 'X';
 
     displayReadStatus(displayReadStatusPara, book.isRead);
 
@@ -72,11 +87,17 @@ const displayBook = () => {
       toggleReadStatus(myLibrary[index], index);
     });
 
+    deleteBookBtn.addEventListener('click', () => {
+      deleteBook(index);
+      displayBook();
+    });
+
     bookCard.appendChild(bookTitle);
     bookCard.appendChild(bookAuthor);
     bookCard.appendChild(bookPages);
     bookCard.appendChild(displayReadStatusPara);
     bookCard.appendChild(toggleReadStatusBtn);
+    bookCard.appendChild(deleteBookBtn);
 
     cardContent.appendChild(bookCard);
     display.appendChild(cardContent);
@@ -116,6 +137,7 @@ bookForm.addEventListener('submit', (e) => {
   getBookInfo();
   const newBook = getBookInfo();
   addBookToLibrary(newBook);
+  setBookId();
   displayBook();
-  // bookForm.reset();
+  bookForm.reset();
 });

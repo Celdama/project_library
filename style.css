@@ -35,3 +35,10 @@
   max-width: 300px;
   padding: 10px;
 }
+
+.delete-book {
+  background-color: #e42923;
+  padding: 6px;
+  border-radius: 50%;
+  color: #fff;
+}
