@@ -5,7 +5,7 @@ const addBookForm = document.getElementById('myForm');
 const closeBookFormBtn = document.getElementById('closeBookFormBtn');
 const bookForm = document.getElementById('formToAddBook');
 
-const myLibrary = [];
+let myLibrary = [];
 
 class Book {
   constructor(title, author, pages, isRead, id = null) {
@@ -57,6 +57,10 @@ const deleteBook = (index) => {
   myLibrary.splice(index, 1);
 };
 
+const saveToLocalStorage = () => {
+  localStorage.setItem('myLibraryInLocalStorage', JSON.stringify(myLibrary));
+};
+
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
@@ -90,6 +94,7 @@ const displayBook = () => {
     deleteBookBtn.addEventListener('click', () => {
       deleteBook(index);
       displayBook();
+      saveToLocalStorage();
     });
 
     bookCard.appendChild(bookTitle);
@@ -129,15 +134,29 @@ const getBookInfo = () => {
   return newBookInfo;
 };
 
+const retrieveDataFromLocalStorage = () => {
+  myLibrary = localStorage.getItem('myLibraryInLocalStorage');
+  myLibrary = JSON.parse(myLibrary);
+
+  if (myLibrary === null) {
+    // local storage empty, donc je réassigne myLibrary en
+    // tant qu'array pour éviter des bugs quand je dois ajouter des books à ce tableau
+    myLibrary = [];
+  } else {
+    displayBook();
+  }
+};
+
 addBookFormBtn.addEventListener('click', () => openForm());
 closeBookFormBtn.addEventListener('click', () => closeForm());
 
 bookForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  getBookInfo();
-  const newBook = getBookInfo();
-  addBookToLibrary(newBook);
+  addBookToLibrary(getBookInfo());
   setBookId();
+  saveToLocalStorage();
   displayBook();
   bookForm.reset();
 });
+
+window.onload = retrieveDataFromLocalStorage();
