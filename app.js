@@ -8,12 +8,12 @@ const bookForm = document.getElementById('formToAddBook');
 let myLibrary = [];
 
 class Book {
-  constructor(title, author, pages, isRead, id = null) {
+  constructor(title, author, pages, isRead, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.isRead = isRead;
-    this.id = id;
+    this.id = id || null;
   }
 
   info() {
@@ -82,10 +82,9 @@ const displayBook = () => {
     bookAuthor.textContent = `by: ${book.author}`;
     bookPages.textContent = `pages: ${book.pages}`;
     deleteBookBtn.textContent = 'X';
+    toggleReadStatusBtn.textContent = 'read';
 
     displayReadStatus(displayReadStatusPara, book.isRead);
-
-    toggleReadStatusBtn.textContent = 'toggle read';
 
     toggleReadStatusBtn.addEventListener('click', () => {
       toggleReadStatus(myLibrary[index], index);
@@ -103,6 +102,7 @@ const displayBook = () => {
     bookCard.appendChild(displayReadStatusPara);
     bookCard.appendChild(toggleReadStatusBtn);
     bookCard.appendChild(deleteBookBtn);
+    bookCard.appendChild(toggleReadStatusBtn);
 
     cardContent.appendChild(bookCard);
     display.appendChild(cardContent);
