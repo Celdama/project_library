@@ -4,6 +4,7 @@ const addBookFormBtn = document.getElementById('showBookFormBtn');
 const addBookForm = document.getElementById('myForm');
 const closeBookFormBtn = document.getElementById('closeBookFormBtn');
 const bookForm = document.getElementById('formToAddBook');
+cardContent.classList.add('card-content');
 
 let myLibrary = [];
 
@@ -42,8 +43,9 @@ const toggleReadStatus = (book, index) => {
   const bookToToggle = book;
   // j'utilise l'index pour cibler le bon <p> et
   // modifier le textContent dans la fonction displayReadStatus
-  const readPara = document.querySelectorAll('.read-statut');
+  const readPara = document.querySelectorAll('.read-status');
   bookToToggle.isRead = !book.isRead;
+
   displayReadStatus(readPara[index], bookToToggle.isRead);
 };
 
@@ -61,48 +63,42 @@ const saveToLocalStorage = () => {
   localStorage.setItem('myLibraryInLocalStorage', JSON.stringify(myLibrary));
 };
 
+const elementFactory = (type, text, className, parent) => {
+  const el = document.createElement(type);
+  el.textContent = text;
+  el.classList.add(`${className}`);
+  parent.appendChild(el);
+
+  return {
+    el,
+  };
+};
+
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
   myLibrary.forEach((book, index) => {
     const bookCard = document.createElement('div');
-    bookCard.dataset.id = index;
-    const bookTitle = document.createElement('h2');
-    const bookAuthor = document.createElement('p');
-    const bookPages = document.createElement('p');
-    const displayReadStatusPara = document.createElement('p');
-    const toggleReadStatusBtn = document.createElement('button');
-    const deleteBookBtn = document.createElement('button');
-    deleteBookBtn.classList.add('delete-book');
     bookCard.classList.add('book-card');
-    cardContent.classList.add('card-content');
-    displayReadStatusPara.classList.add('read-statut');
+    bookCard.dataset.id = index;
+    const bookTitle = elementFactory('h2', book.title, 'book-title', bookCard);
+    const bookAuthor = elementFactory('p', book.author, 'book-author', bookCard);
+    const bookPages = elementFactory('p', book.pages, 'book-pages', bookCard);
+    const displayReadStatusPara = elementFactory('p', '', 'read-status', bookCard);
+    const deleteBookBtn = elementFactory('button', 'X', 'delete-book', bookCard);
+    const toggleReadStatusBtn = elementFactory('button', 'read', 'toggle-read-btn', bookCard);
 
-    bookTitle.textContent = book.title;
-    bookAuthor.textContent = `by: ${book.author}`;
-    bookPages.textContent = `pages: ${book.pages}`;
-    deleteBookBtn.textContent = 'X';
-    toggleReadStatusBtn.textContent = 'read';
+    displayReadStatus(displayReadStatusPara.el, book.isRead);
 
-    displayReadStatus(displayReadStatusPara, book.isRead);
-
-    toggleReadStatusBtn.addEventListener('click', () => {
+    toggleReadStatusBtn.el.addEventListener('click', () => {
       toggleReadStatus(myLibrary[index], index);
     });
 
-    deleteBookBtn.addEventListener('click', () => {
+    deleteBookBtn.el.addEventListener('click', () => {
       deleteBook(index);
       displayBook();
       saveToLocalStorage();
     });
-
-    bookCard.appendChild(bookTitle);
-    bookCard.appendChild(bookAuthor);
-    bookCard.appendChild(bookPages);
-    bookCard.appendChild(displayReadStatusPara);
-    bookCard.appendChild(toggleReadStatusBtn);
-    bookCard.appendChild(deleteBookBtn);
-    bookCard.appendChild(toggleReadStatusBtn);
 
     cardContent.appendChild(bookCard);
     display.appendChild(cardContent);
