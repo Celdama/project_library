@@ -76,7 +76,7 @@
 
 #main .picture-library .picture {
   height: 360px;
-  background-image: url(./library.jpg);
+  background-image: url(./images/library.jpg);
   background-size: cover;
   background-repeat: no-repeat;
 }
