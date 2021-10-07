@@ -1,9 +1,10 @@
-const display = document.getElementById('displayBook');
+const display = document.getElementById('main');
 const cardContent = document.createElement('div');
 const addBookFormBtn = document.getElementById('showBookFormBtn');
 const addBookForm = document.getElementById('myForm');
 const closeBookFormBtn = document.getElementById('closeBookFormBtn');
 const bookForm = document.getElementById('formToAddBook');
+
 cardContent.classList.add('card-content');
 
 let myLibrary = [];

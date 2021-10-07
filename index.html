@@ -9,40 +9,51 @@
   <script src="app.js" defer></script>
 </head>
 <body>
-  <h1>Library</h1>
-  <div id="displayBook"></div>
-  <button id="showBookFormBtn" class="open-button">
-    Add Book
-  </button>
-
-  <div id="test">
-
-  </div>
-
-  <div id="myForm" class="form-popup">
-    <form id="formToAddBook" action="#" class="form-container">
-      <h1>Add Book</h1>
-
-      <label for="title">Title</label>
-      <input type="text" placeholder="Enter title" name="title" id="title" required>
-
-      <label for="author">Author</label>
-      <input type="text" placeholder="Enter author" name="author" id="author" required>
-
-      <label for="pages">Pages</label>
-      <input type="number" placeholder="How many pages" name="pages" id="pages">
-
-      <p>Read</p>
-      <div>
-        <label for="isRead">Yes</label>
-        <input type="radio" name="isRead" value="true" id="isRead">
-        <label for="isRead">No</label>
-        <input type="radio" name="isRead" value="false" id="isRead" checked>
+  <div id="app">
+    <nav id="navbar">
+      <h1>Library</h1>
+      <button id="showBookFormBtn" class="open-button bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded">
+        Add Book
+      </button>
+    </nav>
+    <main id="main">
+      <div class="picture-library">
+        <div class="picture">
+        </div>
       </div>
 
-      <button type="submit">Add</button>
-      <button id="closeBookFormBtn" type="button">Close</button>
-    </form>
+    </main>
+
+
+    <!-- <div id="test">
+
+    </div> -->
+
+    <div id="myForm" class="form-popup">
+      <form id="formToAddBook" action="#" class="form-container">
+        <h1>Add Book</h1>
+
+        <label for="title">Title</label>
+        <input type="text" placeholder="Enter title" name="title" id="title" required>
+
+        <label for="author">Author</label>
+        <input type="text" placeholder="Enter author" name="author" id="author" required>
+
+        <label for="pages">Pages</label>
+        <input type="number" placeholder="How many pages" name="pages" id="pages">
+
+        <p>Read</p>
+        <div>
+          <label for="isRead">Yes</label>
+          <input type="radio" name="isRead" value="true" id="isRead">
+          <label for="isRead">No</label>
+          <input type="radio" name="isRead" value="false" id="isRead" checked>
+        </div>
+
+        <button type="submit">Add</button>
+        <button id="closeBookFormBtn" type="button">Close</button>
+      </form>
+    </div>
   </div>
 </body>
 </html>

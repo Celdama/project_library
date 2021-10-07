@@ -4,6 +4,44 @@
   font-family: sans-serif;
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+#navbar {
+  outline: 1px solid red;
+}
+
+#main {
+  outline: 1px solid blue;
+}
+
+#main .picture-library {
+  height: 420px;
+  /* width: 100%; */
+  outline: 1px solid violet;
+  padding: 32px 48px;
+}
+
+
+
+#main .picture-library .picture {
+  height: 360px;
+  background-image: url(./library.jpg);
+  /* background-image: url("https://images.unsplash.com/photo-1524578271613-d550eacf6090?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-position: 50% 50%; */
+}
+
+#main .picture-library img {
+  max-width: 100%;
+  object-fit: fit;
+  /* max-height: 100%; */
+}
+
 
 .card-content {
   display: flex;
@@ -41,4 +79,20 @@
   padding: 6px;
   border-radius: 50%;
   color: #fff;
+}
+
+@media only screen and (min-width: 815px) {
+  #navbar {
+    position: fixed;
+    min-width: 290px;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+  }
+
+  #main {
+    position: absolute;
+    margin-left: 300px;
+  }
 }
