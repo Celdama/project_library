@@ -11,18 +11,63 @@
 }
 
 #navbar {
-  outline: 1px solid red;
+  /* outline: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  align-items : center;
+}
+
+#navbar .user-information {
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* margin: 48px 0 ; */
+  padding: 28px 0;
+  width: 60%;
+}
+
+#navbar .user-information .user-avatar {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  margin-bottom: 18px;
+}
+
+#navbar .user-information .user-name {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+#navbar .library-information {
+  border-bottom: 1px solid gray;
+  text-align: center;
+  padding: 28px 0 ;
+
+  /* padding: 18px; */
+  width: 60%;
+  margin-bottom: 18px;
+}
+
+#navbar .library-information h3 {
+  margin-bottom: 12px;
+}
+
+#navbar .library-information p {
+  padding: 10px 0;
 }
 
 #main {
-  outline: 1px solid blue;
+  /* outline: 1px solid blue; */
+  padding: 22px 0;
 }
 
 #main .picture-library {
   height: 420px;
   /* width: 100%; */
-  outline: 1px solid violet;
-  padding: 32px 48px;
+  /* outline: 1px solid violet; */
+  padding: 32px 10px;
 }
 
 
@@ -42,13 +87,18 @@
   /* max-height: 100%; */
 }
 
+#main h2 {
+  padding-left: 16px;
+}
+
 
 .card-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 36px;
+  /* padding: 0 48px; */
 }
 
 .book-card {
@@ -84,15 +134,28 @@
 @media only screen and (min-width: 815px) {
   #navbar {
     position: fixed;
-    min-width: 290px;
+    min-width: 270px;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 280px;
     height: 100%;
   }
 
   #main {
     position: absolute;
-    margin-left: 300px;
+    margin-left: 280px;
+    width: calc(100% - 280px);
+  }
+
+  #main h2 {
+    padding-left: 48px;
+  }
+
+  #main .picture-library {
+    padding: 32px 48px;
+  }
+
+  .card-content {
+    gap: 18px;
   }
 }
