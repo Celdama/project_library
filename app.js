@@ -63,30 +63,36 @@ const saveToLocalStorage = () => {
   localStorage.setItem('myLibraryInLocalStorage', JSON.stringify(myLibrary));
 };
 
-const elementFactory = (type, text, className, parent) => {
+const elementFactory = (type, text, className) => {
   const el = document.createElement(type);
   el.textContent = text;
   el.classList.add(`${className}`);
-  parent.appendChild(el);
 
   return {
     el,
   };
 };
 
+const appendElementToParent = (parent, ...args) => {
+  args.forEach((arg) => {
+    parent.appendChild(arg.el);
+  });
+};
+
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
   myLibrary.forEach((book, index) => {
-    const bookCard = document.createElement('div');
-    bookCard.classList.add('book-card');
-    bookCard.dataset.id = index;
-    const bookTitle = elementFactory('h2', book.title, 'book-title', bookCard);
-    const bookAuthor = elementFactory('p', book.author, 'book-author', bookCard);
-    const bookPages = elementFactory('p', book.pages, 'book-pages', bookCard);
-    const displayReadStatusPara = elementFactory('p', '', 'read-status', bookCard);
-    const deleteBookBtn = elementFactory('button', 'X', 'delete-book', bookCard);
-    const toggleReadStatusBtn = elementFactory('button', 'read', 'toggle-read-btn', bookCard);
+    const bookCard = elementFactory('div', '', 'book-card');
+    const bookTitle = elementFactory('h2', book.title, 'book-title');
+    const bookAuthor = elementFactory('p', book.author, 'book-author');
+    const bookPages = elementFactory('p', book.pages, 'book-pages');
+    const displayReadStatusPara = elementFactory('p', '', 'read-status');
+    const deleteBookBtn = elementFactory('button', 'X', 'delete-book');
+    const toggleReadStatusBtn = elementFactory('button', 'read', 'toggle-read-btn');
+
+    appendElementToParent(bookCard.el, bookTitle, bookAuthor,
+      bookPages, displayReadStatusPara, deleteBookBtn, toggleReadStatusBtn);
 
     displayReadStatus(displayReadStatusPara.el, book.isRead);
 
@@ -100,7 +106,7 @@ const displayBook = () => {
       saveToLocalStorage();
     });
 
-    cardContent.appendChild(bookCard);
+    cardContent.appendChild(bookCard.el);
     display.appendChild(cardContent);
   });
 };
