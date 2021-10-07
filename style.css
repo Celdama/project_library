@@ -11,7 +11,6 @@
 }
 
 #navbar {
-  /* outline: 1px solid red; */
   display: flex;
   flex-direction: column;
   align-items : center;
@@ -23,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* margin: 48px 0 ; */
+  margin-top: 18px;
   padding: 28px 0;
   width: 60%;
 }
@@ -43,11 +42,9 @@
 #navbar .library-information {
   border-bottom: 1px solid gray;
   text-align: center;
-  padding: 28px 0 ;
-
-  /* padding: 18px; */
   width: 60%;
-  margin-bottom: 18px;
+  padding-bottom: 28px;
+  margin: 28px 0;
 }
 
 #navbar .library-information h3 {
@@ -58,59 +55,63 @@
   padding: 10px 0;
 }
 
+#navbar .add-book-btn {
+  padding: 8px 22px;
+  background-color: #007f5f;
+  border-radius: 40px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
 #main {
-  /* outline: 1px solid blue; */
   padding: 22px 0;
 }
 
 #main .picture-library {
   height: 420px;
-  /* width: 100%; */
-  /* outline: 1px solid violet; */
-  padding: 32px 10px;
+  padding: 22px;
 }
-
 
 
 #main .picture-library .picture {
   height: 360px;
   background-image: url(./library.jpg);
-  /* background-image: url("https://images.unsplash.com/photo-1524578271613-d550eacf6090?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80"); */
   background-size: cover;
   background-repeat: no-repeat;
-  /* background-position: 50% 50%; */
 }
 
-#main .picture-library img {
-  max-width: 100%;
-  object-fit: fit;
-  /* max-height: 100%; */
+#main .book-library {
+  padding: 22px;
 }
-
-#main h2 {
-  padding-left: 16px;
-}
-
 
 .card-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   margin-top: 36px;
-  /* padding: 0 48px; */
 }
 
 .book-card {
   outline: 1px solid black;
-  padding: 10px;
-  min-width: 180px;
-  height: 160px;
+  padding: 22px;
+  width: 120px;
+  min-height: 220px;
+  word-wrap: break-word;
 }
 
-.book-card h2 {
-  padding: 8px 0 24px 0;
+.book-card .book-title {
   text-align: center;
+  margin-bottom: 32px;
+}
+
+.book-card p {
+  margin: 8px 0;
+}
+
+.book-card .read-status {
+  margin-bottom: 26px;
 }
 
 .form-popup {
@@ -147,15 +148,8 @@
     width: calc(100% - 280px);
   }
 
-  #main h2 {
-    padding-left: 48px;
-  }
-
-  #main .picture-library {
-    padding: 32px 48px;
-  }
-
   .card-content {
-    gap: 18px;
+    gap: 38px;
+    justify-content: flex-start;
   }
 }

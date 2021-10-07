@@ -1,4 +1,4 @@
-const display = document.getElementById('main');
+const display = document.getElementById('display-book-library');
 const cardContent = document.createElement('div');
 const addBookFormBtn = document.getElementById('showBookFormBtn');
 const addBookForm = document.getElementById('myForm');
