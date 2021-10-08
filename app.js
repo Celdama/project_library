@@ -4,6 +4,9 @@ const addBookFormBtn = document.getElementById('showBookFormBtn');
 const addBookForm = document.getElementById('myForm');
 const closeBookFormBtn = document.getElementById('closeBookFormBtn');
 const bookForm = document.getElementById('formToAddBook');
+const totalBooks = document.getElementById('total-books');
+const totalBooksRead = document.getElementById('total-books-read');
+const totalBooksUnread = document.getElementById('totak-books-unread');
 
 cardContent.classList.add('card-content');
 
@@ -29,6 +32,25 @@ const addBookToLibrary = (book) => {
   myLibrary.push(newBook);
 };
 
+const displayLibraryLog = (books) => {
+  let sumtotalBooks = 0;
+  let sumTotalBooksRead = 0;
+  let sumtotalBooksUnread = 0;
+
+  books.forEach((book) => {
+    sumtotalBooks += 1;
+    if (book.isRead) {
+      sumTotalBooksRead += 1;
+    } else {
+      sumtotalBooksUnread += 1;
+    }
+  });
+
+  totalBooks.textContent = `Total books : ${sumtotalBooks}`;
+  totalBooksRead.textContent = `Read : ${sumTotalBooksRead}`;
+  totalBooksUnread.textContent = `Not Read : ${sumtotalBooksUnread}`;
+};
+
 const displayReadStatus = (div, read) => {
   const displayReadStatusPara = div;
 
@@ -49,6 +71,7 @@ const toggleReadStatus = (book, index) => {
   bookToToggle.isRead = !book.isRead;
 
   displayReadStatus(readPara[index], bookToToggle.isRead);
+  displayLibraryLog(myLibrary);
 };
 
 const setBookId = () => {
@@ -118,6 +141,7 @@ const displayBook = () => {
     cardContent.appendChild(bookCard.el);
     display.appendChild(cardContent);
   });
+  displayLibraryLog(myLibrary);
 };
 
 const openForm = () => {
@@ -134,7 +158,6 @@ const getBookInfo = () => {
       { ...acc, [input.id]: input.value }
     ), {});
 
-  console.log(newBookInfo);
   const isReaded = document.querySelector('#formToAddBook input:checked');
 
   if (isReaded.value === 'true') {
@@ -168,7 +191,7 @@ bookForm.addEventListener('submit', (e) => {
   setBookId();
   saveToLocalStorage();
   displayBook();
-  // bookForm.reset();
+  bookForm.reset();
 });
 
 window.onload = retrieveDataFromLocalStorage();
