@@ -10,10 +10,11 @@ cardContent.classList.add('card-content');
 let myLibrary = [];
 
 class Book {
-  constructor(title, author, pages, isRead, id) {
+  constructor(title, author, pages, coverURL, isRead, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.coverURL = coverURL;
     this.isRead = isRead;
     this.id = id || null;
   }
@@ -24,7 +25,7 @@ class Book {
 }
 
 const addBookToLibrary = (book) => {
-  const newBook = new Book(book.title, book.author, book.pages, book.isRead);
+  const newBook = new Book(book.title, book.author, book.pages, book.coverURL, book.isRead);
   myLibrary.push(newBook);
 };
 
@@ -85,6 +86,8 @@ const displayBook = () => {
   cardContent.textContent = '';
   myLibrary.forEach((book, index) => {
     const bookCard = elementFactory('div', '', 'book-card');
+    const bookCover = elementFactory('div', '', 'book-cover');
+    const bookContent = elementFactory('div', '', 'book-content');
     const bookTitle = elementFactory('h2', book.title, 'book-title');
     const bookAuthor = elementFactory('p', book.author, 'book-author');
     const bookPages = elementFactory('p', book.pages, 'book-pages');
@@ -92,8 +95,13 @@ const displayBook = () => {
     const deleteBookBtn = elementFactory('button', 'X', 'delete-book');
     const toggleReadStatusBtn = elementFactory('button', 'read', 'toggle-read-btn');
 
-    appendElementToParent(bookCard.el, bookTitle, bookAuthor,
-      bookPages, displayReadStatusPara, deleteBookBtn, toggleReadStatusBtn);
+    bookCover.el.style.backgroundImage = `url(${book.coverURL})`;
+    bookCover.el.style.backgroundSize = 'cover';
+
+    appendElementToParent(bookContent.el, bookTitle, bookAuthor,
+      displayReadStatusPara, deleteBookBtn, toggleReadStatusBtn);
+
+    appendElementToParent(bookCard.el, bookCover, bookContent);
 
     displayReadStatus(displayReadStatusPara.el, book.isRead);
 
@@ -126,6 +134,7 @@ const getBookInfo = () => {
       { ...acc, [input.id]: input.value }
     ), {});
 
+  console.log(newBookInfo);
   const isReaded = document.querySelector('#formToAddBook input:checked');
 
   if (isReaded.value === 'true') {
@@ -159,7 +168,7 @@ bookForm.addEventListener('submit', (e) => {
   setBookId();
   saveToLocalStorage();
   displayBook();
-  bookForm.reset();
+  // bookForm.reset();
 });
 
 window.onload = retrieveDataFromLocalStorage();
