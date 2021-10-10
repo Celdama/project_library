@@ -111,6 +111,7 @@ const displayBook = () => {
     const bookCard = elementFactory('div', '', 'book-card');
     const bookCover = elementFactory('div', '', 'book-cover');
     const bookContent = elementFactory('div', '', 'book-content');
+    const bookInfo = elementFactory('div', '', 'book-info');
     const bookTitle = elementFactory('h2', book.title, 'book-title');
     const bookAuthor = elementFactory('p', book.author, 'book-author');
     const bookPages = elementFactory('p', book.pages, 'book-pages');
@@ -120,9 +121,12 @@ const displayBook = () => {
 
     bookCover.el.style.backgroundImage = `url(${book.coverURL})`;
     bookCover.el.style.backgroundSize = 'cover';
+    bookCover.el.style.backgroundPosition = 'center';
 
-    appendElementToParent(bookContent.el, bookTitle, bookAuthor,
-      displayReadStatusPara, deleteBookBtn, toggleReadStatusBtn);
+    appendElementToParent(bookInfo.el, bookAuthor, displayReadStatusPara,
+      deleteBookBtn, toggleReadStatusBtn);
+
+    appendElementToParent(bookContent.el, bookTitle, bookInfo);
 
     appendElementToParent(bookCard.el, bookCover, bookContent);
 
