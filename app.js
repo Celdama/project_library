@@ -191,7 +191,7 @@ bookForm.addEventListener('submit', (e) => {
   setBookId();
   saveToLocalStorage();
   displayBook();
-  bookForm.reset();
+  // bookForm.reset();
 });
 
 window.onload = retrieveDataFromLocalStorage();
