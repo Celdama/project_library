@@ -1,5 +1,9 @@
-# avoir les infos de ma library dans les logs
+# progress bar or reading book
 
-## sélectionner les 3 éléments
-## et leur afficher les donners contenu dans library
+## add 2 input in form book
+  # total pages
+  # completed pages
 
+## in js calculate % of reading status
+
+## display a progress bar below author

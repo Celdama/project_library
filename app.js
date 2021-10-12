@@ -13,10 +13,11 @@ cardContent.classList.add('card-content');
 let myLibrary = [];
 
 class Book {
-  constructor(title, author, pages, coverURL, isRead, id) {
+  constructor(title, author, pages, pagesRead, coverURL, isRead, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.pagesRead = pagesRead;
     this.coverURL = coverURL;
     this.isRead = isRead;
     this.id = id || null;
@@ -28,7 +29,8 @@ class Book {
 }
 
 const addBookToLibrary = (book) => {
-  const newBook = new Book(book.title, book.author, book.pages, book.coverURL, book.isRead);
+  const newBook = new Book(book.title, book.author,
+    book.pages, book.pagesRead, book.coverURL, book.isRead);
   myLibrary.push(newBook);
 };
 
@@ -65,13 +67,10 @@ const displayReadStatus = (div, read) => {
 
 const toggleReadStatus = (book, index) => {
   const bookToToggle = book;
-  // j'utilise l'index pour cibler le bon <p> et
-  // modifier le textContent dans la fonction displayReadStatus
-  const readPara = document.querySelectorAll('.read-status');
   bookToToggle.isRead = !book.isRead;
-
-  displayReadStatus(readPara[index], bookToToggle.isRead);
+  bookToToggle.pagesRead = bookToToggle.pages;
   displayLibraryLog(myLibrary);
+  displayBook();
 };
 
 const setBookId = () => {
@@ -104,10 +103,14 @@ const appendElementToParent = (parent, ...args) => {
   });
 };
 
+const percentReadStatus = (allPages, readPage) => ((readPage / allPages) * 100).toFixed();
+
 const displayBook = () => {
   // seul solution trouvée pour l'instant pour éviter la dupplication d'élément dans mon display
   cardContent.textContent = '';
   myLibrary.forEach((book, index) => {
+    const percent = percentReadStatus(book.pages, book.pagesRead);
+
     const bookCard = elementFactory('div', '', 'book-card');
     const bookCover = elementFactory('div', '', 'book-cover');
     const bookContent = elementFactory('div', '', 'book-content');
@@ -115,7 +118,11 @@ const displayBook = () => {
     const bookTitle = elementFactory('h2', book.title, 'book-title');
     const bookAuthor = elementFactory('p', book.author, 'book-author');
     const bookPages = elementFactory('p', book.pages, 'book-pages');
-    const displayReadStatusPara = elementFactory('p', '', 'read-status');
+    const bookProgress = elementFactory('div', '', 'book-progress');
+    const bookProgressBar = elementFactory('div', '', 'book-progress-bar');
+    const bookProgressBarMeter = elementFactory('span', '', 'book-progress-bar-meter');
+    const bookProgressPercent = elementFactory('p', `${percent}%`, 'book-progress-percent');
+    // const displayReadStatusPara = elementFactory('p', '', 'read-status');
     const deleteBookBtn = elementFactory('button', 'X', 'delete-book');
     const toggleReadStatusBtn = elementFactory('button', 'read', 'toggle-read-btn');
 
@@ -123,17 +130,26 @@ const displayBook = () => {
     bookCover.el.style.backgroundSize = 'cover';
     bookCover.el.style.backgroundPosition = 'center';
 
-    appendElementToParent(bookInfo.el, bookAuthor, displayReadStatusPara,
-      deleteBookBtn, toggleReadStatusBtn);
+    bookProgressBarMeter.el.style.width = `${percent}%`;
+
+    bookProgressBarMeter.el.style.backgroundColor = percent === '100' ? '#007f5f' : '#ffd60a';
+
+    appendElementToParent(bookProgressBar.el, bookProgressBarMeter);
+
+    appendElementToParent(bookProgress.el, bookProgressBar, bookProgressPercent);
+
+    appendElementToParent(bookInfo.el, bookAuthor,
+      bookProgress, deleteBookBtn, toggleReadStatusBtn);
 
     appendElementToParent(bookContent.el, bookTitle, bookInfo);
 
     appendElementToParent(bookCard.el, bookCover, bookContent);
 
-    displayReadStatus(displayReadStatusPara.el, book.isRead);
+    // displayReadStatus(displayReadStatusPara.el, book.isRead);
 
     toggleReadStatusBtn.el.addEventListener('click', () => {
       toggleReadStatus(myLibrary[index], index);
+      saveToLocalStorage();
     });
 
     deleteBookBtn.el.addEventListener('click', () => {
@@ -195,7 +211,7 @@ bookForm.addEventListener('submit', (e) => {
   setBookId();
   saveToLocalStorage();
   displayBook();
-  // bookForm.reset();
+  bookForm.reset();
 });
 
 window.onload = retrieveDataFromLocalStorage();

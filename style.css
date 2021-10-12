@@ -139,22 +139,17 @@
 }
 
 .book-content .book-title {
-  /* padding-bottom: 8px; */
   padding-top: 12px;
   font-family: 'Merriweather', serif;
   font-weight: 900;
   font-size: 22px;
-  /* outline: 1px solid green; */
-  /* min-height: 60px; */
 }
 
 .book-content {
-  /* outline: 1px solid red; */
   height: 130px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  /* justify-content: flex-start; */
 }
 
 .book-content .book-info .book-author {
@@ -163,6 +158,40 @@
   font-family: 'Nunito', sans-serif;
   letter-spacing: .8px;
   font-weight: 400;
+}
+
+.book-content .book-progress {
+  /* outline: 1px solid red; */
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+}
+
+.book-progress .book-progress-percent {
+  color: rgb(54, 54, 54);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+
+}
+
+.book-progress .book-progress-bar {
+  width: 80%;
+  margin-right: 12px;
+  height: 5px;
+  position: relative;
+  background: #f0efe9;
+
+
+}
+
+.book-progress-bar > span {
+  display: block;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+
 }
 
 
