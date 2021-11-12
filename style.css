@@ -227,6 +227,11 @@
   box-shadow: 0 0 2px #719ece;
 }
 
+.form-container > div > input:valid {
+  outline: 2px solid green;
+  box-shadow: 0 0 2px green;
+}
+
 .form-container .wrapper-btn {
   flex-direction: row;
 }
@@ -265,18 +270,6 @@
   font-size: 80%;
   color: white;
   background-color: #900;
-  border-radius: 0 0 5px 5px;
-
-  box-sizing: border-box;
-}
-
-.good {
-  width: 100%;
-  padding: 0;
-
-  font-size: 80%;
-  color: white;
-  background-color: green;
   border-radius: 0 0 5px 5px;
 
   box-sizing: border-box;

@@ -203,7 +203,6 @@ const retrieveDataFromLocalStorage = () => {
 };
 
 const showError = (element, display) => {
-  console.log(element.id);
   if (element.id === 'title') {
     if (element.validity.valueMissing) {
       display.textContent = 'You need to enter an title book';
@@ -212,8 +211,6 @@ const showError = (element, display) => {
     } else if (element.validity.tooShort) {
       display.textContent = `title should be ${element.minLength}`;
     }
-
-    display.className = 'error active';
   } else if (element.id === 'author') {
     if (element.validity.valueMissing) {
       display.textContent = 'You need to enter an author book';
@@ -222,8 +219,6 @@ const showError = (element, display) => {
     } else if (element.validity.tooShort) {
       display.textContent = `author should be ${element.minLength}`;
     }
-
-    display.className = 'error active';
   } else if (element.id === 'coverURL') {
     if (element.validity.valueMissing) {
       display.textContent = 'You need to enter an url';
@@ -232,8 +227,6 @@ const showError = (element, display) => {
     } else if (element.validity.tooShort) {
       display.textContent = `coverURL should be ${element.minLength}`;
     }
-
-    display.className = 'error active';
   } else if (element.id === 'pages') {
     if (element.validity.valueMissing) {
       display.textContent = 'You have to add a number of pages';
@@ -242,8 +235,6 @@ const showError = (element, display) => {
     } else if (element.validity.rangeUnderflow) {
       display.textContent = `num of pages should be ${element.min} at least`;
     }
-
-    display.className = 'error active';
   } else if (element.id === 'pagesRead') {
     if (element.validity.valueMissing) {
       display.textContent = 'You have to add a number of completed pages';
@@ -252,8 +243,8 @@ const showError = (element, display) => {
     } else if (element.validity.rangeOverflow) {
       display.textContent = 'num of completed pages cannot be greater than num of pages';
     }
-    display.className = 'error active';
   }
+  display.className = 'error active';
 };
 
 // ELEMENT FOR FORM VALIDATION
@@ -272,8 +263,8 @@ const pagesReadError = document.querySelector('#pagesRead + span.error');
 const testTitleFormValidity = () => {
   title.addEventListener('input', (e) => {
     if (title.validity.valid) {
-      titleError.textContent = 'title is good';
-      titleError.className = 'error good';
+      titleError.textContent = '';
+      titleError.className = 'error';
     } else {
       showError(title, titleError);
     }
@@ -283,8 +274,8 @@ const testTitleFormValidity = () => {
 const testAuthorFormValidity = () => {
   author.addEventListener('input', (e) => {
     if (author.validity.valid) {
-      authorError.textContent = 'author is good';
-      authorError.className = 'error good';
+      authorError.textContent = '';
+      authorError.className = 'error';
     } else {
       showError(author, authorError);
     }
@@ -294,8 +285,8 @@ const testAuthorFormValidity = () => {
 const testCoverURLFormValidity = () => {
   coverURL.addEventListener('input', (e) => {
     if (coverURL.validity.valid) {
-      coverError.textContent = 'url is good';
-      coverError.className = 'error good';
+      coverError.textContent = '';
+      coverError.className = 'error';
     } else {
       showError(coverURL, coverError);
     }
@@ -306,8 +297,8 @@ const testPagesFormValidity = () => {
   pages.addEventListener('input', (e) => {
     pagesRead.setAttribute('max', `${pages.value}`);
     if (pages.validity.valid) {
-      pagesError.textContent = 'number of pages is good';
-      pagesError.className = 'error good';
+      pagesError.textContent = '';
+      pagesError.className = 'error';
     } else {
       showError(pages, pagesError);
     }
@@ -317,8 +308,8 @@ const testPagesFormValidity = () => {
 const testPagesReadFormValidity = () => {
   pagesRead.addEventListener('input', (e) => {
     if (pagesRead.validity.valid) {
-      pagesReadError.textContent = 'good';
-      pagesReadError.className = 'error good';
+      pagesReadError.textContent = '';
+      pagesReadError.className = 'error';
     } else {
       showError(pagesRead, pagesReadError);
     }
