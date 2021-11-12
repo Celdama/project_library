@@ -17,7 +17,7 @@ class Book {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.pagesRead = pagesRead;
+    this.pagesRead = pagesRead || 0;
     this.coverURL = coverURL;
     this.isRead = isRead;
     this.id = id || null;
