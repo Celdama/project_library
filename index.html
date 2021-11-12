@@ -1,71 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Library</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
-</head>
-<body>
-  <div id="app">
-    <nav id="navbar">
-      <div class="user-information">
-        <img class="user-avatar" src="./images/avatar.png" alt="avatar of user library">
-        <span class="user-name">Celdama Dev</span>
-      </div>
-      <div class="library-information">
-        <h3>Library Log</h3>
-        <p id="total-books"></p>
-        <p id="total-books-read"></p>
-        <p id="totak-books-unread"></p>
-      </div>
-      <button id="showBookFormBtn" class="add-book-btn">
-        Add Book
-      </button>
-      <div id="myForm" class="form-popup">
-      <form id="formToAddBook" action="#" class="form-container">
-        <h1>Add Book</h1>
-
-        <label for="title">Title</label>
-        <input type="text" placeholder="Enter title" name="title" id="title" required>
-
-        <label for="author">Author</label>
-        <input type="text" placeholder="Enter author" name="author" id="author" required>
-
-        <label for="pages">Pages</label>
-        <input type="number" placeholder="How many pages" name="pages" id="pages">
-
-        <label for="pagesRead">Completed Pages</label>
-        <input type="number" placeholder="How many pages already read" name="pagesRead" id="pagesRead">
-
-        <label for="coverURL">Cover URL </label>
-        <input type="text" placeholder="Url Cover book" name="coverURL" id="coverURL">
-
-        <p>Read</p>
-        <div>
-          <label for="isRead">Yes</label>
-          <input type="radio" name="isRead" value="true" id="isRead">
-          <label for="isRead">No</label>
-          <input type="radio" name="isRead" value="false" id="isRead" checked>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div id="app">
+      <nav id="navbar">
+        <div class="user-information">
+          <img
+            class="user-avatar"
+            src="./images/avatar.png"
+            alt="avatar of user library"
+          />
+          <span class="user-name">Celdama Dev</span>
         </div>
+        <div class="library-information">
+          <h3>Library Log</h3>
+          <p id="total-books"></p>
+          <p id="total-books-read"></p>
+          <p id="totak-books-unread"></p>
+        </div>
+        <button id="showBookFormBtn" class="add-book-btn">Add New Book</button>
+        <div id="myForm" class="form-popup">
+          <form novalidate id="formToAddBook" action="#" class="form-container">
+            <div>
+              <label for="title">Title</label>
+              <input
+                autocomplete="off"
+                type="text"
+                placeholder="Enter title"
+                name="title"
+                id="title"
+                minlength="4"
+                required
 
-        <button type="submit">Add</button>
-        <button id="closeBookFormBtn" type="button">Close</button>
-      </form>
+              />
+              <span class="error" aria-live="polite"></span>
+            </div>
+
+            <div>
+              <label for="author">Author</label>
+              <input
+                autocomplete="off"
+                type="text"
+                placeholder="Enter author"
+                name="author"
+                id="author"
+                minlength="4"
+                required
+              />
+              <span class="error" aria-live="polite"></span>
+            </div>
+
+            <div>
+              <label for="pages">Pages <em style="font-size: 12px">(set pages before completed pages)</em></label>
+              <input
+                type="number"
+                placeholder="How many pages"
+                name="pages"
+                id="pages"
+                min="2"
+                required
+              />
+              <span class="error" aria-live="polite"></span>
+
+            </div>
+
+            <div>
+              <label for="pagesRead">Completed Pages</label>
+              <input
+                type="number"
+                placeholder="How many pages already read"
+                name="pagesRead"
+                id="pagesRead"
+
+              />
+              <span class="error" aria-live="polite"></span>
+
+            </div>
+
+            <div>
+              <label for="coverURL">Cover URL </label>
+              <input
+                autocomplete="off"
+                type="url"
+                placeholder="Url Cover book"
+                name="coverURL"
+                id="coverURL"
+                required
+              />
+              <span class="error" aria-live="polite"></span>
+            </div>
+
+            <div>
+              <p>Read</p>
+              <div>
+                <label for="isRead">Yes</label>
+                <input type="radio" name="isRead" value="true" id="isRead" />
+                <label for="isRead">No</label>
+                <input
+                  type="radio"
+                  name="isRead"
+                  value="false"
+                  id="isRead"
+                  checked
+                />
+              </div>
+            </div>
+
+            <div class="wrapper-btn">
+              <button id="addBookFormBtn" type="submit">Add Book</button>
+              <button id="closeBookFormBtn" type="button">Close</button>
+            </div>
+          </form>
+        </div>
+      </nav>
+      <main id="main">
+        <div class="picture-library">
+          <div class="picture">
+            <p class="quotes">
+              "The only thing that you absolutely have to know,<br />is the
+              location of the library." <span>-- ALBERT EINSTEIN</span>
+            </p>
+          </div>
+        </div>
+        <div id="display-book-library" class="book-library">
+          <h2 class="main-title">My Library</h2>
+        </div>
+      </main>
     </div>
-    </nav>
-    <main id="main">
-      <div class="picture-library">
-        <div class="picture">
-          <p class="quotes">"The only thing that you absolutely have to know,<br/>is the location of the library." <span>-- ALBERT EINSTEIN</span></p>
-        </div>
-      </div>
-      <div id="display-book-library" class="book-library">
-        <h2 class="main-title">My Library</h2>
-      </div>
-    </main>
-  </div>
-</body>
+  </body>
 </html>

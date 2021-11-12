@@ -202,16 +202,161 @@ const retrieveDataFromLocalStorage = () => {
   }
 };
 
+const showError = (element, display) => {
+  console.log(element.id);
+  if (element.id === 'title') {
+    if (element.validity.valueMissing) {
+      display.textContent = 'You need to enter an title book';
+    } else if (element.validity.typeMismatch) {
+      display.textContent = 'Entered value need this';
+    } else if (element.validity.tooShort) {
+      display.textContent = `title should be ${element.minLength}`;
+    }
+
+    display.className = 'error active';
+  } else if (element.id === 'author') {
+    if (element.validity.valueMissing) {
+      display.textContent = 'You need to enter an author book';
+    } else if (element.validity.typeMismatch) {
+      display.textContent = 'Entered value need this';
+    } else if (element.validity.tooShort) {
+      display.textContent = `author should be ${element.minLength}`;
+    }
+
+    display.className = 'error active';
+  } else if (element.id === 'coverURL') {
+    if (element.validity.valueMissing) {
+      display.textContent = 'You need to enter an url';
+    } else if (element.validity.typeMismatch) {
+      display.textContent = 'Entered value need to be an url. eg: "https://www.mycover...."';
+    } else if (element.validity.tooShort) {
+      display.textContent = `coverURL should be ${element.minLength}`;
+    }
+
+    display.className = 'error active';
+  } else if (element.id === 'pages') {
+    if (element.validity.valueMissing) {
+      display.textContent = 'You have to add a number of pages';
+    } else if (element.validity.typeMismatch) {
+      display.textContent = 'entered a num';
+    } else if (element.validity.rangeUnderflow) {
+      display.textContent = `num of pages should be ${element.min} at least`;
+    }
+
+    display.className = 'error active';
+  } else if (element.id === 'pagesRead') {
+    if (element.validity.valueMissing) {
+      display.textContent = 'You have to add a number of completed pages';
+    } else if (element.validity.typeMismatch) {
+      display.textContent = 'entered a num';
+    } else if (element.validity.rangeOverflow) {
+      display.textContent = 'num of completed pages cannot be greater than num of pages';
+    }
+    display.className = 'error active';
+  }
+};
+
+// ELEMENT FOR FORM VALIDATION
+const title = document.getElementById('title');
+const titleError = document.querySelector('#title + span.error');
+const author = document.getElementById('author');
+const authorError = document.querySelector('#author + span.error');
+const coverURL = document.getElementById('coverURL');
+const coverError = document.querySelector('#coverURL + span.error');
+const pages = document.getElementById('pages');
+const pagesError = document.querySelector('#pages + span.error');
+const pagesRead = document.getElementById('pagesRead');
+const pagesReadError = document.querySelector('#pagesRead + span.error');
+// END ELEMENT FOR FORM VALIDATION
+
+const testTitleFormValidity = () => {
+  title.addEventListener('input', (e) => {
+    if (title.validity.valid) {
+      titleError.textContent = 'title is good';
+      titleError.className = 'error good';
+    } else {
+      showError(title, titleError);
+    }
+  });
+};
+
+const testAuthorFormValidity = () => {
+  author.addEventListener('input', (e) => {
+    if (author.validity.valid) {
+      authorError.textContent = 'author is good';
+      authorError.className = 'error good';
+    } else {
+      showError(author, authorError);
+    }
+  });
+};
+
+const testCoverURLFormValidity = () => {
+  coverURL.addEventListener('input', (e) => {
+    if (coverURL.validity.valid) {
+      coverError.textContent = 'url is good';
+      coverError.className = 'error good';
+    } else {
+      showError(coverURL, coverError);
+    }
+  });
+};
+
+const testPagesFormValidity = () => {
+  pages.addEventListener('input', (e) => {
+    pagesRead.setAttribute('max', `${pages.value}`);
+    if (pages.validity.valid) {
+      pagesError.textContent = 'number of pages is good';
+      pagesError.className = 'error good';
+    } else {
+      showError(pages, pagesError);
+    }
+  });
+};
+
+const testPagesReadFormValidity = () => {
+  pagesRead.addEventListener('input', (e) => {
+    if (pagesRead.validity.valid) {
+      pagesReadError.textContent = 'good';
+      pagesReadError.className = 'error good';
+    } else {
+      showError(pagesRead, pagesReadError);
+    }
+  });
+};
+
 addBookFormBtn.addEventListener('click', () => openForm());
 closeBookFormBtn.addEventListener('click', () => closeForm());
 
 bookForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  addBookToLibrary(getBookInfo());
-  setBookId();
-  saveToLocalStorage();
-  displayBook();
-  bookForm.reset();
+  if (!title.validity.valid) {
+    showError(title, titleError);
+    e.preventDefault();
+  } else if (!author.validity.valid) {
+    showError(author, authorError);
+    e.preventDefault();
+  } else if (!coverURL.validity.valid) {
+    showError(coverURL, coverError);
+    e.preventDefault();
+  } else if (!pages.validity.valid) {
+    showError(pages, pagesError);
+    e.preventDefault();
+  } else if (!pagesRead.validity.valid) {
+    showError(pagesRead, pagesReadError);
+    e.preventDefault();
+  } else {
+    addBookToLibrary(getBookInfo());
+    setBookId();
+    saveToLocalStorage();
+    displayBook();
+    bookForm.reset();
+  }
 });
 
 window.onload = retrieveDataFromLocalStorage();
+
+window.onload = testTitleFormValidity();
+window.onload = testAuthorFormValidity();
+window.onload = testCoverURLFormValidity();
+window.onload = testPagesFormValidity();
+window.onload = testPagesReadFormValidity();
