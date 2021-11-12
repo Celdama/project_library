@@ -170,6 +170,8 @@ const openForm = () => {
 
 const closeForm = () => {
   addBookForm.style.display = 'none';
+  bookForm.reset();
+  resetAllSpanError();
 };
 
 const getBookInfo = () => {
@@ -260,8 +262,17 @@ const pagesRead = document.getElementById('pagesRead');
 const pagesReadError = document.querySelector('#pagesRead + span.error');
 // END ELEMENT FOR FORM VALIDATION
 
+const resetAllSpanError = () => {
+  const allSpansError = [titleError, authorError, coverError, pagesError, pagesReadError];
+
+  allSpansError.forEach((span) => {
+    span.textContent = '';
+    span.className = 'error';
+  });
+};
+
 const testTitleFormValidity = () => {
-  title.addEventListener('input', (e) => {
+  title.addEventListener('input', () => {
     if (title.validity.valid) {
       titleError.textContent = '';
       titleError.className = 'error';
@@ -272,7 +283,7 @@ const testTitleFormValidity = () => {
 };
 
 const testAuthorFormValidity = () => {
-  author.addEventListener('input', (e) => {
+  author.addEventListener('input', () => {
     if (author.validity.valid) {
       authorError.textContent = '';
       authorError.className = 'error';
@@ -283,7 +294,7 @@ const testAuthorFormValidity = () => {
 };
 
 const testCoverURLFormValidity = () => {
-  coverURL.addEventListener('input', (e) => {
+  coverURL.addEventListener('input', () => {
     if (coverURL.validity.valid) {
       coverError.textContent = '';
       coverError.className = 'error';
@@ -294,7 +305,7 @@ const testCoverURLFormValidity = () => {
 };
 
 const testPagesFormValidity = () => {
-  pages.addEventListener('input', (e) => {
+  pages.addEventListener('input', () => {
     pagesRead.setAttribute('max', `${pages.value}`);
     if (pages.validity.valid) {
       pagesError.textContent = '';
@@ -306,7 +317,7 @@ const testPagesFormValidity = () => {
 };
 
 const testPagesReadFormValidity = () => {
-  pagesRead.addEventListener('input', (e) => {
+  pagesRead.addEventListener('input', () => {
     if (pagesRead.validity.valid) {
       pagesReadError.textContent = '';
       pagesReadError.className = 'error';
