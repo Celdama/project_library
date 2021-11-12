@@ -18,17 +18,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #caf0f8;
+  background-color: #e26d5c;
 }
 
 #navbar .user-information {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 18px;
   padding: 28px 0;
+  color: #fff;
   width: 60%;
 }
 
@@ -45,8 +46,9 @@
 }
 
 #navbar .library-information {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #fff;
   text-align: center;
+  color: #fff;
   width: 60%;
   padding-bottom: 28px;
   margin: 28px 0;

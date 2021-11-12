@@ -164,16 +164,6 @@ const displayBook = () => {
   displayLibraryLog(myLibrary);
 };
 
-const openForm = () => {
-  addBookForm.style.display = 'block';
-};
-
-const closeForm = () => {
-  addBookForm.style.display = 'none';
-  bookForm.reset();
-  resetAllSpanError();
-};
-
 const getBookInfo = () => {
   const newBookInfo = Array.from(document.querySelectorAll('#formToAddBook input'))
     .reduce((acc, input) => (
@@ -207,45 +197,36 @@ const retrieveDataFromLocalStorage = () => {
 const showError = (element, display) => {
   if (element.id === 'title') {
     if (element.validity.valueMissing) {
-      display.textContent = 'You need to enter an title book';
-    } else if (element.validity.typeMismatch) {
-      display.textContent = 'Entered value need this';
-    } else if (element.validity.tooShort) {
-      display.textContent = `title should be ${element.minLength}`;
+      display.textContent = 'Title book required';
     }
   } else if (element.id === 'author') {
     if (element.validity.valueMissing) {
-      display.textContent = 'You need to enter an author book';
-    } else if (element.validity.typeMismatch) {
-      display.textContent = 'Entered value need this';
-    } else if (element.validity.tooShort) {
-      display.textContent = `author should be ${element.minLength}`;
+      display.textContent = 'Author book required';
     }
   } else if (element.id === 'coverURL') {
     if (element.validity.valueMissing) {
-      display.textContent = 'You need to enter an url';
+      display.textContent = 'Book image url required';
     } else if (element.validity.typeMismatch) {
       display.textContent = 'Entered value need to be an url. eg: "https://www.mycover...."';
-    } else if (element.validity.tooShort) {
-      display.textContent = `coverURL should be ${element.minLength}`;
     }
   } else if (element.id === 'pages') {
     if (element.validity.valueMissing) {
-      display.textContent = 'You have to add a number of pages';
-    } else if (element.validity.typeMismatch) {
-      display.textContent = 'entered a num';
+      display.textContent = 'Number of pages required';
     } else if (element.validity.rangeUnderflow) {
-      display.textContent = `num of pages should be ${element.min} at least`;
+      display.textContent = `Number of pages should be ${element.min} at least`;
+    } else if (typeof element.value === 'string') {
+      display.textContent = 'Only number';
     }
   } else if (element.id === 'pagesRead') {
     if (element.validity.valueMissing) {
-      display.textContent = 'You have to add a number of completed pages';
-    } else if (element.validity.typeMismatch) {
-      display.textContent = 'entered a num';
+      display.textContent = 'Number of completed pages required';
     } else if (element.validity.rangeOverflow) {
-      display.textContent = 'num of completed pages cannot be greater than num of pages';
+      display.textContent = 'Completed pages cannot be greater than number of pages';
+    } else if (typeof element.value === 'string') {
+      display.textContent = 'Only number';
     }
   }
+
   display.className = 'error active';
 };
 
@@ -337,14 +318,14 @@ bookForm.addEventListener('submit', (e) => {
   } else if (!author.validity.valid) {
     showError(author, authorError);
     e.preventDefault();
-  } else if (!coverURL.validity.valid) {
-    showError(coverURL, coverError);
-    e.preventDefault();
   } else if (!pages.validity.valid) {
     showError(pages, pagesError);
     e.preventDefault();
   } else if (!pagesRead.validity.valid) {
     showError(pagesRead, pagesReadError);
+    e.preventDefault();
+  } else if (!coverURL.validity.valid) {
+    showError(coverURL, coverError);
     e.preventDefault();
   } else {
     addBookToLibrary(getBookInfo());
@@ -355,10 +336,23 @@ bookForm.addEventListener('submit', (e) => {
   }
 });
 
-window.onload = retrieveDataFromLocalStorage();
+const openForm = () => {
+  addBookForm.style.display = 'block';
+  testTitleFormValidity();
+  testAuthorFormValidity();
+  testCoverURLFormValidity();
+  testPagesFormValidity();
+  testPagesReadFormValidity();
+};
 
-window.onload = testTitleFormValidity();
-window.onload = testAuthorFormValidity();
-window.onload = testCoverURLFormValidity();
-window.onload = testPagesFormValidity();
-window.onload = testPagesReadFormValidity();
+const closeForm = () => {
+  addBookForm.style.display = 'none';
+  bookForm.reset();
+  resetAllSpanError();
+};
+
+const launchThisFunctionOnLoad = () => {
+  retrieveDataFromLocalStorage();
+};
+
+window.onload = launchThisFunctionOnLoad();
